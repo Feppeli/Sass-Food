@@ -6,5 +6,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface UserRepository extends JpaRepository<UserModel, Long> {
-
+    // No seu UserRepository.java
+    boolean existsByCpf(String cpf);
+    boolean existsByEmail(String email);
 }

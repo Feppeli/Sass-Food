@@ -1,9 +1,7 @@
 package com.Food.Food.Model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import org.hibernate.validator.constraints.UniqueElements;
 
 @Entity
 public class UserModel {
@@ -37,6 +35,7 @@ public class UserModel {
         this.email = email;
     }
 
+    @Column(unique=true)
     public String getCpf() {
         return cpf;
     }
