@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,8 +18,13 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
+    // Crypt password:
+    private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
+
     @PostMapping("/create")
     public ResponseEntity<?> receiveUser(@RequestBody UserModel user){
+
         if(userRepository.existsByCpf(user.getCpf())){ // Veiricação do CPF cadastrado
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Erro: CPF já cadastrado!");
         }
@@ -27,7 +33,10 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Erro: Email já cadatrado");
         }
 
+
         try {
+            String encryptedPassword = encoder.encode(user.getPassword());
+            user.setPassword(encryptedPassword);
             UserModel savedUser = userRepository.save(user);
             return ResponseEntity.status(HttpStatus.CREATED).body("Usuário salvo com Sucesso!" + user);
         }catch (DataIntegrityViolationException e){

@@ -13,6 +13,7 @@ public class UserModel {
     //Atributos privados
     private String name;
     private String email;
+    @Column(length = 255)
     private String password;
     private String cpf;
 
