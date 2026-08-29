@@ -1,0 +1,11 @@
+package com.Food.Food.Repository;
+
+import com.Food.Food.Model.BusinessModel;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+public interface BusinessRepository extends JpaRepository<BusinessModel, Long> {
+
+    boolean existsByCnpj(String cnpj);
+    boolean existsByEmail(String email);
+}
